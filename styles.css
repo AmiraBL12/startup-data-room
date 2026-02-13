@@ -1,0 +1,856 @@
+/* =============================================
+   Moran AI Data Room
+   Light Glassmorphism Design
+   ============================================= */
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f0f2f8;
+    color: #1a1a2e;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* =============================================
+   Animated Background Orbs
+   ============================================= */
+.bg-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bg-orb-1 {
+    width: 600px;
+    height: 600px;
+    background: #8b5cf6;
+    top: -150px;
+    left: -100px;
+    animation: float1 22s ease-in-out infinite;
+}
+
+.bg-orb-2 {
+    width: 500px;
+    height: 500px;
+    background: #3b82f6;
+    top: 40%;
+    right: -120px;
+    animation: float2 25s ease-in-out infinite;
+}
+
+.bg-orb-3 {
+    width: 450px;
+    height: 450px;
+    background: #14b8a6;
+    bottom: -100px;
+    left: 30%;
+    animation: float3 20s ease-in-out infinite;
+}
+
+@keyframes float1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(80px, 60px) scale(1.1); }
+    66% { transform: translate(-40px, 30px) scale(0.95); }
+}
+
+@keyframes float2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-60px, -80px) scale(0.9); }
+    66% { transform: translate(40px, 40px) scale(1.08); }
+}
+
+@keyframes float3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(60px, -40px) scale(1.05); }
+    66% { transform: translate(-80px, 20px) scale(0.92); }
+}
+
+/* =============================================
+   Header Styles
+   ============================================= */
+.header {
+    position: relative;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.03);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 2.5rem 0;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.title-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6, #14b8a6);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: rgba(0, 0, 0, 0.45);
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+}
+
+.header-meta {
+    text-align: right;
+}
+
+.last-updated {
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.45);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 0.5rem 1.25rem;
+    border-radius: 100px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* =============================================
+   Main Content Area
+   ============================================= */
+.main-content {
+    position: relative;
+    z-index: 10;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+}
+
+/* =============================================
+   Folder Grid
+   ============================================= */
+.folder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* =============================================
+   Folder Cards — Light Glass Style
+   ============================================= */
+.folder-card {
+    --glow: #3b82f6;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 18px;
+    padding: 1.75rem;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.folder-card.visible {
+    animation: cardEntrance 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.folder-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        0 0 40px color-mix(in srgb, var(--glow) 18%, transparent);
+}
+
+.folder-card.expanded {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: var(--glow);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        0 0 30px color-mix(in srgb, var(--glow) 12%, transparent);
+}
+
+.folder-card.expanded .expand-icon {
+    transform: rotate(180deg);
+    color: var(--glow);
+}
+
+/* =============================================
+   Folder Icons
+   ============================================= */
+.folder-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    color: white;
+}
+
+/* Icon Colors with Glow */
+.folder-icon.blue {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
+}
+.folder-icon.purple {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.35);
+}
+.folder-icon.teal {
+    background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+    box-shadow: 0 4px 20px rgba(20, 184, 166, 0.35);
+}
+.folder-icon.green {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.35);
+}
+.folder-icon.orange {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.35);
+}
+.folder-icon.pink {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+    box-shadow: 0 4px 20px rgba(236, 72, 153, 0.35);
+}
+.folder-icon.red {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.35);
+}
+.folder-icon.brown {
+    background: linear-gradient(135deg, #a16207 0%, #854d0e 100%);
+    box-shadow: 0 4px 20px rgba(161, 98, 7, 0.35);
+}
+.folder-icon.navy {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
+}
+.folder-icon.yellow {
+    background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+    box-shadow: 0 4px 20px rgba(234, 179, 8, 0.35);
+}
+.folder-icon.gray {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    box-shadow: 0 4px 20px rgba(107, 114, 128, 0.35);
+}
+
+/* =============================================
+   Typography & Badges
+   ============================================= */
+.folder-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+}
+
+.file-count {
+    font-size: 0.78rem;
+    color: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.04);
+    padding: 0.3rem 0.85rem;
+    border-radius: 100px;
+    display: inline-block;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.file-count.empty {
+    background: rgba(234, 179, 8, 0.1);
+    border-color: rgba(234, 179, 8, 0.2);
+    color: #a16207;
+}
+
+.expand-icon {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    color: rgba(0, 0, 0, 0.2);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.85rem;
+}
+
+.folder-card:hover .expand-icon {
+    color: rgba(0, 0, 0, 0.45);
+}
+
+/* =============================================
+   Folder Contents — Light Glass Drawer
+   ============================================= */
+.folder-contents {
+    display: none;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    padding: 1rem;
+    margin: 0.5rem 0 1.5rem;
+}
+
+.folder-contents.visible {
+    display: block;
+    animation: drawerSlideDown 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Inline drawer - spans full width of grid row */
+.folder-contents.inline-drawer {
+    grid-column: 1 / -1;
+    margin: 0 0 1rem 0;
+    position: relative;
+    overflow: visible;
+    border-top: 2px solid;
+    border-image: linear-gradient(90deg, #8b5cf6, #3b82f6, #14b8a6) 1;
+}
+
+/* Arrow pointing to parent folder */
+.folder-contents.inline-drawer::before {
+    content: '';
+    position: absolute;
+    top: -9px;
+    left: var(--drawer-arrow-position, 50px);
+    width: 16px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.7);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    transform: rotate(45deg);
+    z-index: 1;
+}
+
+@keyframes drawerSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============================================
+   File Items
+   ============================================= */
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #374151;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.file-item:last-child {
+    margin-bottom: 0;
+}
+
+.file-item:hover {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.08);
+    transform: translateX(6px);
+    color: #1a1a2e;
+}
+
+.file-item.subfolder {
+    background: rgba(234, 179, 8, 0.08);
+    border-color: rgba(234, 179, 8, 0.15);
+}
+
+.file-item.subfolder:hover {
+    background: rgba(234, 179, 8, 0.15);
+    border-color: rgba(234, 179, 8, 0.3);
+}
+
+/* File Icons */
+.pdf-icon {
+    color: #dc2626;
+    font-size: 1.15rem;
+}
+
+.excel-icon {
+    color: #16a34a;
+    font-size: 1.15rem;
+}
+
+.folder-icon-small {
+    color: #eab308;
+    font-size: 1.15rem;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.empty-state i {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 0.9rem;
+}
+
+/* =============================================
+   Document Preview Modal
+   ============================================= */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-container {
+    background: #ffffff;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(0, 0, 0, 0.05);
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.modal-overlay.active .modal-container {
+    transform: translateY(0) scale(1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    flex-shrink: 0;
+}
+
+.modal-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.modal-file-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.modal-file-icon.pdf { color: #dc2626; }
+.modal-file-icon.xlsx { color: #16a34a; }
+
+.modal-title-group {
+    min-width: 0;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.modal-subtitle {
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.4);
+    margin-top: 0.15rem;
+    display: block;
+}
+
+.modal-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.modal-date {
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.04);
+    padding: 0.3rem 0.85rem;
+    border-radius: 100px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    white-space: nowrap;
+}
+
+.modal-close-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 1rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-close-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: #1a1a2e;
+}
+
+.modal-body {
+    padding: 2.5rem 3rem;
+    overflow-y: auto;
+    flex: 1;
+    color: #374151;
+    line-height: 1.8;
+}
+
+/* PDF Document Styling */
+.modal-body h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.06);
+}
+
+.modal-body h2:first-child {
+    margin-top: 0;
+}
+
+.modal-body h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.modal-body p {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.modal-body ul, .modal-body ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+.modal-body li {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.modal-body strong {
+    color: #1a1a2e;
+    font-weight: 600;
+}
+
+.modal-body hr {
+    border: none;
+    border-top: 2px solid rgba(0, 0, 0, 0.06);
+    margin: 2rem 0;
+}
+
+/* XLSX Table Styling */
+.modal-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+}
+
+.modal-body thead th {
+    background: #f8fafc;
+    color: #1a1a2e;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    white-space: nowrap;
+}
+
+.modal-body tbody td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    white-space: nowrap;
+}
+
+.modal-body tbody tr:hover {
+    background: rgba(59, 130, 246, 0.04);
+}
+
+.modal-body tbody tr:nth-child(even) {
+    background: rgba(0, 0, 0, 0.015);
+}
+
+.modal-body tbody tr:nth-child(even):hover {
+    background: rgba(59, 130, 246, 0.04);
+}
+
+.modal-footer {
+    padding: 1rem 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.modal-confidential {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+/* =============================================
+   Footer
+   ============================================= */
+.footer {
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.35);
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 3rem;
+    font-size: 0.85rem;
+}
+
+/* =============================================
+   Responsive Design
+   ============================================= */
+@media (max-width: 1024px) {
+    .folder-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .logo-section {
+        flex-direction: column;
+    }
+
+    .header-meta {
+        text-align: center;
+    }
+
+    .folder-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .title-section h1 {
+        font-size: 1.8rem;
+    }
+
+    .main-content {
+        padding: 2rem 1.5rem;
+    }
+
+    .modal-overlay {
+        padding: 1rem;
+    }
+
+    .modal-container {
+        max-height: 90vh;
+        border-radius: 16px;
+    }
+
+    .modal-header {
+        padding: 1.25rem 1.5rem;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .modal-header-right {
+        order: -1;
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .modal-date {
+        display: none;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .modal-body table {
+        font-size: 0.75rem;
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 1.5rem 1rem;
+    }
+
+    .folder-card {
+        padding: 1.25rem;
+    }
+
+    .title-section h1 {
+        font-size: 1.5rem;
+    }
+
+    .modal-overlay {
+        padding: 0;
+    }
+
+    .modal-container {
+        max-height: 100vh;
+        border-radius: 0;
+        height: 100%;
+    }
+
+    .modal-body {
+        padding: 1.25rem 1rem;
+    }
+}
+
+/* =============================================
+   Reduced Motion
+   ============================================= */
+@media (prefers-reduced-motion: reduce) {
+    .bg-orb {
+        animation: none;
+    }
+
+    .title-section h1 {
+        animation: none;
+    }
+
+    .folder-card {
+        opacity: 1;
+        transform: none;
+    }
+
+    .folder-card.visible {
+        animation: none;
+    }
+
+    .folder-contents.visible {
+        animation: none;
+    }
+
+    .modal-overlay,
+    .modal-container {
+        transition-duration: 0.01ms !important;
+    }
+
+    * {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* =============================================
+   Animations & Polish
+   ============================================= */
+.folder-card,
+.file-item {
+    will-change: transform;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+::selection {
+    background: #8b5cf6;
+    color: white;
+}
